@@ -12,7 +12,6 @@ from math import isclose
 
 # Local
 from pyampute.utils import (
-    LOOKUP_TABLE_PATH,
     ArrayLike,
     Matrix,
     isin,
@@ -20,6 +19,7 @@ from pyampute.utils import (
     enforce_numeric,
     standardize_uppercase,
     sigmoid,
+    load_shift_lookup_table,
 )
 
 THRESHOLD_MIN_NUM_CANDIDATES = 10
@@ -565,13 +565,10 @@ class MultivariateAmputation(TransformerMixin, BaseEstimator):
         """
         if any([isinstance(func, str) for func in self.score_to_probability_func]):
             try:
-                self.shift_lookup_table = read_csv(LOOKUP_TABLE_PATH, index_col=0)
+                self.shift_lookup_table = load_shift_lookup_table()
             except Exception:
                 logging.warning(
                     "Failed to load lookup table for a prespecified score to probability function. "
-                    f"It is possible {LOOKUP_TABLE_PATH} is missing, in the wrong location, or corrupted. "
-                    "Try rerunning scripts/generate_shift_lookup_table.py "
-                    "to regenerate the lookup table."
                 )
                 self.shift_lookup_table = None
 

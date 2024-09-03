@@ -1,16 +1,16 @@
 """ Utils mainly to write code agnostic to numpy or pandas.  """
 # Author: Davina Zamanzadeh <davzaman@gmail.com>
 
+import csv
+import importlib.resources as pkg_resources
 from typing import List, Optional, Union
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 import numpy as np
-from os.path import join
+
 
 ArrayLike = Union[pd.Series, np.array, List]
 Matrix = Union[pd.DataFrame, np.ndarray]
-
-LOOKUP_TABLE_PATH = join("data", "shift_lookup.csv")
 
 
 def standardize_uppercase(input: str) -> str:
@@ -62,3 +62,9 @@ def enforce_numeric(
             X = X.apply(pd.to_numeric, errors="coerce").dropna(axis=1, how="all")
 
     return X
+
+
+def load_shift_lookup_table():
+    with pkg_resources.open_text('pyampute.data', 'shift_lookup.csv') as csvfile:
+        df = pd.read_csv(csvfile, index_col=0)
+    return df
