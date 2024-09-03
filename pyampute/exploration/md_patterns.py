@@ -117,7 +117,7 @@ class mdPatterns:
         group_values.sort_values(
             by=["n_missing_values", "row_count"], ascending=[True, False], inplace=True
         )
-        group_values = group_values.append(colsums, ignore_index=True)
+        group_values = group_values._append(colsums, ignore_index=True)
 
         # add extra row to patterns when there are no incomplete rows in dataset
         if group_values.iloc[0, 0:-2].values.tolist() != list(np.ones(len(sorted_col))):
