@@ -1,13 +1,13 @@
+import os
+
 import numpy as np
 import pandas as pd
 
 
 from pyampute.ampute import MultivariateAmputation
-from pyampute.utils import LOOKUP_TABLE_PATH
 
 
 def generate_shift_lookup_table(
-    lookup_table_path: str = LOOKUP_TABLE_PATH,
     n_samples: int = int(1e6),
     lower_range: float = MultivariateAmputation.DEFAULTS["lower_range"],
     upper_range: float = MultivariateAmputation.DEFAULTS["upper_range"],
@@ -48,7 +48,7 @@ def generate_shift_lookup_table(
     lookup_table = pd.DataFrame(
         shifts, index=score_to_prob_func_names, columns=percent_missing_2_decimal,
     )
-    lookup_table.to_csv(lookup_table_path)
+    lookup_table.to_csv(os.getcwd())
 
 
 if __name__ == "__main__":
