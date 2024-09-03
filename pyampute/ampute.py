@@ -566,9 +566,9 @@ class MultivariateAmputation(TransformerMixin, BaseEstimator):
         if any([isinstance(func, str) for func in self.score_to_probability_func]):
             try:
                 self.shift_lookup_table = load_shift_lookup_table()
-            except Exception:
+            except Exception as e:
                 logging.warning(
-                    "Failed to load lookup table for a prespecified score to probability function. "
+                    "Failed to load lookup table for a prespecified score to probability function. ", e
                 )
                 self.shift_lookup_table = None
 
