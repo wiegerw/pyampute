@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import unittest
+from pathlib import Path
 
 from pyampute.ampute import MultivariateAmputation
 from pyampute.exploration.md_patterns import mdPatterns
@@ -16,10 +17,11 @@ class TestMapping(unittest.TestCase):
         self.n = 10000
         rng = np.random.default_rng()
         self.nhanes2_sim = rng.standard_normal((10000, 4))
+        csv_file = Path(__file__).parent.parent / "data" / "nhanes2.csv"
         try:
-            self.nhanes2_orig = pd.read_csv("data/nhanes2.csv")
+            self.nhanes2_orig = pd.read_csv(csv_file)
         except:
-            print("CSV file failed to load.")
+            print(f"CSV file '{csv_file}' failed to load.")
 
     def test_patterns(self):
 
