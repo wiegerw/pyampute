@@ -8,7 +8,6 @@ import pandas as pd
 from pandas.api.types import is_numeric_dtype
 import numpy as np
 
-
 ArrayLike = Union[pd.Series, np.array, List]
 Matrix = Union[pd.DataFrame, np.ndarray]
 
@@ -65,6 +64,6 @@ def enforce_numeric(
 
 
 def load_shift_lookup_table():
-    with pkg_resources.open_text('pyampute.data', 'shift_lookup.csv') as csvfile:
+    with pkg_resources.files('pyampute.data').joinpath('shift_lookup.csv').open('r') as csvfile:
         df = pd.read_csv(csvfile, index_col=0)
     return df

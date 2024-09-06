@@ -398,6 +398,8 @@ class MultivariateAmputation(TransformerMixin, BaseEstimator):
         data_group = enforce_numeric(data_group, self.vars_involved_in_ampute)
         # standardize data or not
         if self.std:
+            bool_columns = data_group.select_dtypes(include='bool').columns
+            data_group[bool_columns] = data_group[bool_columns].astype(int)
             data_group = stats.zscore(data_group)
 
         # calculate sum scores
