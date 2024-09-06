@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import unittest
+from pathlib import Path
 
 from pyampute.exploration.md_patterns import mdPatterns
 from pyampute.ampute import MultivariateAmputation
@@ -9,10 +10,11 @@ from pyampute.ampute import MultivariateAmputation
 class TestMdPatterns(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
+        csv_file = Path(__file__).parent.parent / "data" / "nhanes2.csv"
         try:
-            self.nhanes2 = pd.read_csv("data/nhanes2.csv")
+            self.nhanes2 = pd.read_csv(csv_file)
         except:
-            print("CSV file failed to load.")
+            print(f"CSV file '{csv_file}' failed to load.")
 
     def test_incomplete_nparray(self):
 

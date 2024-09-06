@@ -1,13 +1,18 @@
 """Unittest for mcar_tests.py"""
 import unittest
 import pandas as pd
+from pathlib import Path
 
 from pyampute.exploration.mcar_statistical_tests import MCARTest
 
 
 # load test data
-data_mar = pd.read_table("data/missingdata.csv")
-data_mcar = pd.read_table("data/missingdata_mcar.csv")
+csv_folder = Path(__file__).parent.parent / "data"
+try:
+    data_mar = pd.read_table(csv_folder / "missingdata.csv")
+    data_mcar = pd.read_table(csv_folder / "missingdata_mcar.csv")
+except:
+    print(f"Failed to load CSV files from folder '{csv_folder}'.")
 
 significance_level = 0.05
 
