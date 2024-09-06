@@ -34,6 +34,17 @@ def is_numeric(X: Union[ArrayLike, Matrix]) -> bool:
     return is_numeric_dtype(X)
 
 
+def remove_booleans(X: Union[ArrayLike, Matrix]) -> Union[ArrayLike, Matrix]:
+    if isinstance(X, pd.DataFrame):
+        bool_columns = X.select_dtypes(include='bool').columns
+        X[bool_columns] = X[bool_columns].astype(int)
+    elif isinstance(X, np.ndarray):
+        X = X.astype(int)
+    else:
+        raise TypeError("Unsupported type. X must be a pandas DataFrame or numpy ndarray.")
+    return X
+
+
 def enforce_numeric(
     X: Union[ArrayLike, Matrix], vars_to_enforce: Optional[np.ndarray] = None,
 ) -> Matrix:

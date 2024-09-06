@@ -19,7 +19,7 @@ from pyampute.utils import (
     enforce_numeric,
     standardize_uppercase,
     sigmoid,
-    load_shift_lookup_table,
+    load_shift_lookup_table, remove_booleans,
 )
 
 THRESHOLD_MIN_NUM_CANDIDATES = 10
@@ -398,8 +398,7 @@ class MultivariateAmputation(TransformerMixin, BaseEstimator):
         data_group = enforce_numeric(data_group, self.vars_involved_in_ampute)
         # standardize data or not
         if self.std:
-            bool_columns = data_group.select_dtypes(include='bool').columns
-            data_group[bool_columns] = data_group[bool_columns].astype(int)
+            data_group = remove_booleans(data_group)
             data_group = stats.zscore(data_group)
 
         # calculate sum scores
@@ -959,6 +958,7 @@ class MultivariateAmputation(TransformerMixin, BaseEstimator):
                     pattern == 0, np.nan, X_incomplete[chosen_indices]
                 )
             else:
+                X_incomplete = remove_booleans(X_incomplete)
                 X_incomplete.iloc[chosen_indices, pattern == 0] = np.nan
 
         return X_incomplete
